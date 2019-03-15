@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <header>
+<div class="logo">쇼핑몰 회원관리 ver1.0</div>
 <nav>
 	<ul>
 		<li><a href="join.jsp">회원등록</a></li>
