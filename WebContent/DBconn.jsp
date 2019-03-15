@@ -13,7 +13,6 @@ Connection conn = null;
 try{
 	Class.forName(driver);
 	conn = DriverManager.getConnection(url,user,password);
-	System.out.println("asdasdsadsadsadsadasdasdasdasd");
 }catch(ClassNotFoundException e){
 	System.out.println("드라이버 실패");
 }catch(SQLException e){
