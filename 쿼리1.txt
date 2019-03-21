@@ -50,9 +50,4 @@ insert into money_tbl_02 values('10004','2016009','600','1','600','A006','201601
 insert into money_tbl_02 values('10004','2016010','3000','1','3000','A007','20160106');
 
 
-select a.custno, a.custname, 
-	decode(a.grade,'A','VIP','B','일반','C','직원','')grade, a.grade, sum(b.price) price
-	from member_tbl_02 a, money_tbl_02 b
-      where a.custno = b.custno
-      group by a.custno, a.custname, a.grade
-      order by price desc;
+select a.custno, a.custname, decode(a.grade,'A','VIP','B','일반','C','직원') grade, sum(b.PRIcE) price from member_tbl_02 a, money_tbl_02 b where a.custno = b.custno group by a.custno, a.custname, a.grade order by price desc
