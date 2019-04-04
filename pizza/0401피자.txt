@@ -1,0 +1,79 @@
+--테이블 삭제
+drop table sale_tbl_001;
+drop table pizza_tbl_002;
+drop table store_tbl_002;
+drop sequence sale_seq;
+-- sale_tbl_001 seq
+create sequence sale_seq
+start with 001
+increment by 1
+minvalue 001
+cache 10;
+--테이블 생성
+create table pizza_tbl_002(
+	pizza_cd varchar2(5) not null,--피자코드
+	pizza_nm varchar(50) ,--피자명
+	price number(10),--돈
+	primary key(pizza_cd)
+);
+create table store_tbl_002(
+	store_cd varchar2(5) not null,--지점코드
+	store_nm varchar(50),--지점명
+	grade_fg number(1),--지점등급
+	primary key(store_cd)
+);
+create table sale_tbl_001(
+	sale_no varchar2(5) not null,--판매번호
+	sale_store_cd varchar2(5) not null,--판매지점코드
+	sale_ymd varchar2(30),--판매일자
+	sale_pizza_cd varchar(5) not null,--피자코드
+	sale_cnt number(3),--피자수량
+	CONSTRAINT fk_store FOREIGN KEY(sale_store_cd)
+	REFERENCES STORE_TBL_002(store_cd),
+	CONSTRAINT fk_pizza FOREIGN KEY(sale_pizza_cd)
+	REFERENCES pizza_tbl_002(pizza_cd),
+	primary key(sale_no)
+);
+
+--권한부여
+grnat select,delete,update,insert on pizza_tbl_002 to asdf;
+grnat select,delete,update,insert on store_tbl_002 to asdf;
+grnat select,delete,update,insert on sale_tbl_001 to asdf;
+
+--샘플데이터 입력
+
+insert into pizza_tbl_002 values('A0001','쉬림프올인',5000);
+insert into pizza_tbl_002 values('A0002','스테이크올인',6000);
+insert into pizza_tbl_002 values('A0003','갈릭마블스테이크',7000);
+insert into pizza_tbl_002 values('A0004','갈릭버터쉬림프',8000);
+insert into pizza_tbl_002 values('A0005','더블갈릭스테이크',9000);
+insert into pizza_tbl_002 values('A0006','큐브스테이크',10000);
+insert into pizza_tbl_002 values('A0007','토핑킹',11000);
+insert into pizza_tbl_002 values('A0008','치즈킹',12000);
+
+insert into store_tbl_002 values('ST001','강동점',2);
+insert into store_tbl_002 values('ST002','송파점',1);
+insert into store_tbl_002 values('ST003','강남점',2);
+insert into store_tbl_002 values('ST004','서초점',3);
+insert into store_tbl_002 values('ST005','동작점',1);
+insert into store_tbl_002 values('ST006','성동점',1);
+insert into store_tbl_002 values('ST007','용산점',1);
+
+insert into sale_tbl_001 values(sale_seq.nextval,'ST001','20190301','A0001',2);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST001','20190301','A0002',5);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST001','20190301','A0001',8);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST001','20190301','A0002',5);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST002','20190304','A0001',3);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST002','20190304','A0003',2);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST002','20190304','A0001',5);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST002','20190308','A0003',8);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST003','20190308','A0001',3);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST003','20190308','A0004',2);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST003','20190308','A0001',1);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST003','20190308','A0005',1);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST004','20190311','A0001',7);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST004','20190311','A0006',6);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST004','20190311','A0001',6);
+insert into sale_tbl_001 values(sale_seq.nextval,'ST004','20190311','A0007',7);
+
+commit;
