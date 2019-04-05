@@ -1,0 +1,25 @@
+@charset "UTF-8";
+*{margin: 0;padding: 0;text-decoration: none;list-style: none;}
+.wrap{width: 1100px;height: auto;margin: 0 auto;}
+.header{width: 100%;height: 80px;line-height: 80px;color: white;font-size: 25px;text-align: center;background: #4044f2;}
+nav{
+	width: 100%;height: 30px;
+	background: #8285f7;
+	text-align: center;
+}
+nav > ul > li{float: left;width: 150px;height: 30px;line-height: 30px;}
+nav a{color:white;}
+.section{width: 100%;height: 600px;background: #dfdfdf;}
+.sec_txt{margin-left: 10px;}
+.tit_comm{width: 100%;height: 80px;text-align: center;line-height: 80px;font-size: 30px;}
+.footer{width: 100%;height: 60px;background: #4044f2;text-align: center;color: white;line-height: 60px;}
+.table_comm{margin: 0 auto;text-align: center;width: 900px;height: auto;}
+.table_comm tbody tr{height:24px ;}
+.table_mny{margin: 0 auto;text-align: center;width: 600px;height: auto;}
+.table_mny tbody tr{height:24px ;} 
+.table_footer_comm{text-align: center;}
+.white{color:white;}
+.rent_tb{margin: 0 auto;}
+.td_comm{width: 400px;}
+.th_comm{width: 300px;}
+.money_t{margin: 0 auto;text-align: center;}
