@@ -13,11 +13,12 @@
 <jsp:include page="header.jsp"></jsp:include>
 <%
 
-query = "SELECT sale_no from sale_tbl_003 where rownum <= 1 order by sale_no desc";
-int sale_no = 1;
+query = "SELECT sale_no from sale_tbl_003 where rownum >= 1 order by sale_no desc";
+int sale_no = 0;
 pstmt=conn.prepareStatement(query);
 res=pstmt.executeQuery();
-if (res.next()) sale_no = res.getInt(1)+1;
+while(res.next()) sale_no = sale_no+1;
+System.out.println(sale_no);
 java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyyMMdd");
 String today = formatter.format(new java.util.Date());
 %>
