@@ -22,7 +22,9 @@ pstmt=conn.prepareStatement(query);
 res=pstmt.executeQuery();
 
 %>
+<jsp:include page="nav.jsp"></jsp:include>
 <div class="section">
+<div class="tit_comm">세부정보</div>
 <table class="table_comm" border="1">
 		<tr>
 			<th>판매구분</th>
@@ -58,7 +60,7 @@ res=pstmt.executeQuery();
 		<%} %>
 	</table>
 </div>
-<jsp:include page="nav.jsp"></jsp:include>
+
 <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

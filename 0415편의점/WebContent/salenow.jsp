@@ -10,6 +10,7 @@
 <body>
 <div class="wrap">
 <jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="nav.jsp"></jsp:include>
 <%
 query = "SELECT b.STORE_NM,";		
 query += " sum(decode(a.pay_type, '01', sale_cnt, 0)*c.GOODS_PRICE*decode(a.sale_fg, '1', 1, '2', -1))||'원' AS cash_amt, ";	
@@ -24,7 +25,7 @@ query += " ORDER BY tot_amt desc";
 pstmt=conn.prepareStatement(query);
 res=pstmt.executeQuery();
 %>
-<jsp:include page="nav.jsp"></jsp:include>
+
 <div class="section">
 <div class="tit_comm">점포별매출현황</div>
 	<table class="table_comm" border="1">
