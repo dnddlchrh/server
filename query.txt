@@ -1,0 +1,181 @@
+drop table reserve_tbl_005;
+drop table member_tbl_005;
+drop table movie_tbl_005;
+
+--1번
+create table member_tbl_005(
+    cust_no varchar2(5) not null,
+    cust_nm varchar2(20),
+    phone varchar2(11),
+    address varchar2(50),
+    join_date date,
+    point number(7),
+    join_route varchar2(2),
+    primary key(cust_no)
+);
+
+create table movie_tbl_005(
+    movie_cd varchar2(11) not null,
+    movie_nm varchar2(30),
+    movie_fg varchar2(2),
+    play_date date,
+    primary key(movie_cd)
+);
+
+create table reserve_tbl_005(
+    r_ymd varchar2(8) not null,
+    r_seq varchar2(5) not null,
+    r_cust_no varchar2(5) not null,
+    r_movie_cd varchar2(11) not null,
+    morning_fg varchar(1),
+    primary key(r_ymd,r_seq),
+    foreign key(r_cust_no) references member_tbl_005(cust_no),
+    foreign key(r_movie_cd) references movie_tbl_005(movie_cd)
+);
+
+insert into member_tbl_005 values('10001','공유','01011112222','서울시 용산구','20190301','2500','01');
+insert into member_tbl_005 values('10002','정유미','01022223333','서울시 중구','20190308','2000','02');
+insert into member_tbl_005 values('10003','마동석','01033334444','서울시 영등포구','20190311','13000','01');
+insert into member_tbl_005 values('10004','김수안','01044445555','서울시 마포구','20190324','500','03');
+insert into member_tbl_005 values('10005','김의성','01055556666','서울시 은평구','20190327','0','01');
+insert into member_tbl_005 values('10006','최우식','01066667777','서울시 종로구','20190405','7000','01');
+insert into member_tbl_005 values('10007','안소희','01077778888','서울시 서대문구','20190409','1000','03');
+insert into member_tbl_005 values('10008','최귀화','01088889999','서울시 구로구','20190414','11000','02');
+
+insert into movie_tbl_005 values('20190303001','어스','03','20190327');
+insert into movie_tbl_005 values('20190301002','헬보이','01','20190410');
+insert into movie_tbl_005 values('20190402001','생일','02','20190403');
+insert into movie_tbl_005 values('20190402002','크게될놈','02','20190418');
+insert into movie_tbl_005 values('20190403003','요로나의저주','03','20190417');
+insert into movie_tbl_005 values('20190401004','어벤져스엔드게임','01','20190424');
+
+insert into reserve_tbl_005 values('20190418','0001','10001','20190401004','N');
+insert into reserve_tbl_005 values('20190418','0002','10004','20190401004','N');
+insert into reserve_tbl_005 values('20190418','0003','10002','20190402001','N');
+insert into reserve_tbl_005 values('20190418','0004','10003','20190402001','N');
+insert into reserve_tbl_005 values('20190418','0005','10005','20190301002','Y');
+insert into reserve_tbl_005 values('20190418','0006','10003','20190301002','Y');
+insert into reserve_tbl_005 values('20190418','0007','10005','20190401004','Y');
+insert into reserve_tbl_005 values('20190418','0008','10003','20190401004','N');
+insert into reserve_tbl_005 values('20190418','0009','10005','20190402002','Y');
+insert into reserve_tbl_005 values('20190418','0010','10003','20190301002','N');
+insert into reserve_tbl_005 values('20190418','0011','10008','20190403003','Y');
+insert into reserve_tbl_005 values('20190418','0012','10002','20190401004','N');
+insert into reserve_tbl_005 values('20190418','0013','10007','20190301002','N');
+insert into reserve_tbl_005 values('20190418','0014','10001','20190401004','N');
+insert into reserve_tbl_005 values('20190418','0015','10007','20190402002','N');
+insert into reserve_tbl_005 values('20190419','0016','10005','20190402001','N');
+
+--2번
+drop sequence reserve_number;
+
+create sequence reserve_number
+    start with 14
+    increment by 1
+    minvalue 14
+    nocache;
+
+--3번
+SELECT RANK() OVER (ORDER BY sum(cnt) DESC) AS ranking,
+       movie_nm, 
+       round(sum(cnt)/(SELECT count(*) FROM reserve_tbl_005)*100, 1)||'%' per,
+       sum(cnt)||'건' cntnum,
+       ymd
+ FROM (
+ SELECT movie_nm,
+      count(*) cnt,
+      to_char(play_date, 'yyyy-mm-dd') ymd
+  FROM reserve_tbl_005 a, movie_tbl_005 b
+ WHERE a.r_movie_cd = b.movie_cd
+ GROUP BY movie_nm, play_date
+ UNION ALL
+ SELECT movie_nm, 0, to_char(play_date, 'yyyy-mm-dd') FROM movie_tbl_005
+ )
+ GROUP BY movie_nm, ymd
+
+
+select rank() over(order by count(a.movie_cd) desc) 순위,
+    round(count(a.movie_cd)*100/(select count(b.r_movie_cd) from reserve_tbl_005),1)||'%' as 예매율,
+    a.movie_nm as 영화제목,count(a.movie_cd) as 예매건수,
+    to_char(a.play_date,'yyyy-mm-dd') as 개봉일
+    from movie_tbl_005 a,reserve_tbl_005 b
+    where a.movie_cd = b.r_movie_cd
+    group by a.movie_nm, a.movie_cd, a.play_date
+    order by count(a.movie_cd) desc
+ ;--어스안뽑힘
+
+--4번
+select
+cust_no as 고객번호,
+cust_nm as 고객명,
+phone as 핸드폰번호,
+address as 주소,
+join_date as 가입일자,
+point as 누적포인트,
+case join_route 
+	when '01' then '액션'
+	when '02' then '호러'
+	when '03' then '드라마'
+end as 선호영화,
+DECODE(TRUNC(POINT/5000,0),'1','VIP','2','VVIP','일반') AS grade
+from member_tbl_005
+order by point desc;--4-1번
+
+--4-2번
+CREATE OR REPLACE VIEW grade
+AS
+SELECT
+    AVG(POINT) AS pointavg,
+    DECODE(TRUNC(POINT/5000,0),'1','VIP','2','VVIP','일반') AS grade
+FROM
+    MEMBER_TBL_005
+GROUP BY
+    TRUNC(POINT/5000,0) 
+ORDER BY
+    AVG(point) desc;
+
+--4-3번
+CREATE OR REPLACE VIEW mem_join
+AS
+SELECT
+    CUST_NM,
+    to_char(JOIN_DATE,'yyyy-mm-dd') AS joindate
+FROM
+    MEMBER_TBL_005
+WHERE
+    JOIN_DATE <= SYSDATE-30;
+--5번
+CREATE OR REPLACE VIEW movie_count
+AS
+SELECT
+    rownum a,a.*
+FROM
+    (SELECT
+        a.R_CUST_NO,
+        c.CUST_NM,
+        count(*)
+    FROM
+        RESERVE_TBL_005 a,
+        MEMBER_TBL_005 c
+    WHERE
+        MORNING_FG = 'Y' AND
+        c.CUST_no = a.R_CUST_NO
+    GROUP BY
+        a.R_CUST_NO,c.CUST_NM
+    ORDER BY
+        count(*) DESC) a
+WHERE
+    rownum = 1;
+
+--6번
+create or replace view date_view
+as
+SELECT
+    R_YMD,
+    count(*) AS cnt
+FROM
+    RESERVE_TBL_005
+GROUP BY
+    R_YMD;
+
+commit;
