@@ -1,0 +1,114 @@
+drop table sale_tbl_003;
+drop table menu_tbl_007;
+drop table size_tbl_007;
+drop table store_tbl_007;
+
+
+create table menu_tbl_007(
+menu_cd varchar2(5) not null Primary key, --메뉴코드
+menu_nm varchar2(30), --메뉴명
+price number(8), --메뉴금액
+menu_fg varchar2(2) -- 메뉴구분 0 : Coffe 1 : Tea
+);
+insert into menu_tbl_007 values('10001','아메리카노','3600','0');
+insert into menu_tbl_007 values('10002','카페 라떼','4100','0');
+insert into menu_tbl_007 values('10003','카페 모카','4600','0');
+insert into menu_tbl_007 values('10004','카라멜 마키아또','5100','0');
+insert into menu_tbl_007 values('10005','호지 티 라떼','5400','1');
+insert into menu_tbl_007 values('10006','그린 티 라떼','5400','1');
+insert into menu_tbl_007 values('10007','차이 티 라떼','4600','1');
+
+create table size_tbl_007(
+size_cd varchar2(2) not null Primary key, --사이즈코드
+size_nm varchar2(20), --사이즈명
+plus_price varchar2(4) --추가금액
+);
+
+insert into size_tbl_007 values('S1','short','0');
+insert into size_tbl_007 values('T1','tall','500');
+insert into size_tbl_007 values('G1','grande','1000');
+insert into size_tbl_007 values('V1','venti','1500');
+
+
+create table store_tbl_007(
+store_cd varchar2(4) not null Primary key, --점포코드
+store_nm varchar2(20), --점포명
+store_loc varchar2(2), -- 0:용산구, 1:중구
+open_date date --오픈일자
+);
+
+insert into store_tbl_007 values('A001','동부이촌동점','0','20181001');
+insert into store_tbl_007 values('A002','이태원점','0','20181101');
+insert into store_tbl_007 values('A003','서울타워점','0','20181201');
+insert into store_tbl_007 values('B004','소공동점','1','20190101');
+insert into store_tbl_007 values('B005','명동길점','1','20190201');
+insert into store_tbl_007 values('B006','충무로역점','1','20190301');
+
+create table sale_tbl_003(
+sale_ymd varchar2(8) not null, --판매일자
+sale_no varchar2(4) not null, --판매번호
+store_cd varchar2(4), --점포코드
+menu_cd varchar2(5), --메뉴코드
+size_cd varchar2(2), --사이즈코드
+sale_cnt number(3), --판매수량
+pay_type varchar2(2), --수취구분 01 현금, 02 카드
+Foreign key(store_cd)
+references store_tbl_007(store_cd),
+Foreign key(menu_cd)
+references menu_tbl_007(menu_cd),
+Foreign key(size_cd)
+references size_tbl_007(size_cd),
+Primary key(sale_ymd,sale_no)
+);
+
+insert into sale_tbl_003 values('20190429','0001','A001','10001','T1','4','02');
+insert into sale_tbl_003 values('20190429','0002','B004','10002','S1','1','02');
+insert into sale_tbl_003 values('20190429','0003','B004','10006','S1','1','02');
+insert into sale_tbl_003 values('20190429','0004','A002','10006','T1','1','01');
+insert into sale_tbl_003 values('20190429','0005','B005','10001','G1','1','01');
+insert into sale_tbl_003 values('20190429','0006','B005','10003','S1','2','02');
+insert into sale_tbl_003 values('20190429','0007','A003','10002','T1','3','02');
+insert into sale_tbl_003 values('20190429','0008','B006','10001','S1','4','02');
+
+drop sequence sale_seq;
+create sequence sale_seq
+start with 9
+increment by 1
+minvalue 9
+nocache;
+
+drop sequence menu_seq;
+create sequence menu_seq
+start with 10008
+increment by 1
+minvalue 10008
+nocache;
+
+commit;
+
+select menu_cd,menu_nm from menu_tbl_007 order by menu_cd asc
+select store_cd,store_nm from store_tbl_007
+Select menu_cd,menu_nm,price,menu_fg  from menu_tbl_007 order by menu_cd asc
+
+select
+    a.sale_ymd,
+    a.sale_no,
+    b.store_nm,
+    c.menu_nm,
+    d.size_nm,
+    a.sale_cnt,
+    (price+plus_price)*sale_cnt as price,
+    a.pay_type
+    from
+   sale_tbl_003 a, store_tbl_007 b,menu_tbl_007 c, size_tbl_007 d
+   where
+   a.store_cd = b.store_cd
+   and
+   a.menu_cd = c.menu_cd
+   and
+   a.size_cd = d.size_cd
+   order by a.sale_no asc;
+
+
+--보너스 1 
+-- alter table sale_tbl_003 add sale_fg varchar2(2) default '1';
