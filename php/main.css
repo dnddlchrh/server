@@ -1,0 +1,92 @@
+*{margin: 0;padding: 0;}
+a{color: #333;text-decoration: none;}
+body, th, td, input, select, textarea, button{font-size: 12px;line-height: 1.5;color: #333;}
+.wrap_comm{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.head_user{
+  width: 100%;
+  padding-top: 51px;
+  border-bottom: 2px solid #424447;
+}
+.head_user .inner_head{
+  width: 978px;
+  height: 58px;
+  margin: 0 auto;
+}
+.head_user h1{
+  display: inline;
+  float: left;
+  margin-left: 4px;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 28px;
+  letter-spacing: -1px;
+}
+#daumServiceLogo{
+  display: block;
+  width: 78px;
+  height: 29px;
+  margin: 6px 40px 23px 0;
+  background: url(https://t1.daumcdn.net/id/member/2014/img_gnb_userinfo2014.gif) no-repeat;
+}
+.myinfo{display: block;position: relative;width: 100%;height: 100%;overflow: hidden;z-index: -1px;}
+.wrapmin{
+  z-index: 999999;
+  height: 34px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #333;
+  text-align: left;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 978px;
+  margin-left: -489px;
+}
+.mindaum{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 34px;
+  letter-spacing: -1px;
+}
+.mindaum a:hover{text-decoration: underline;}
+.mindaum a:hover .minuserlayer{display: block;overflow: hidden;z-index: 99999;}
+.mindaum_logo{
+  display: inline;
+  float: left;
+  margin: 7px 15px 0 4px;
+}
+.mindaum .mindaum_logo .img_logo{display: block;overflow: hidden;width: 45px;height: 19px;background: url(https://i1.daumcdn.net/icon/minidaum/common/minidaum_v16.png) no-repeat;text-indent: -9999px;}
+.mini_gnb{float: right;margin-top: 6px;line-height: 15px;}
+.miniuser .minilogin{
+  padding-right: 9px;
+  margin-top: 3px;
+  line-height: 16px;
+  background: url(https://i1.daumcdn.net/icon/minidaum/common/minidaum_v16.png) no-repeat 100% -128px;
+}
+.miniuser{
+  position: relative;
+  float: left;
+  margin-right: 2px;
+}
+.miniNick{
+  padding-right: 9px;
+  line-height: 17px;
+  color: #444;
+  background: url(https://i1.daumcdn.net/icon/minidaum/common/minidaum_v16.png) no-repeat 100% -61px;
+}
+.minuserlayer{
+  display: none;
+  position: absolute;
+  top:18px;
+  right: 9px;
+  width: 80px;
+  font-size: 12px;
+  background: #fff none;
+  border: 1px solid #444;
+}
