@@ -4,10 +4,10 @@
 String query = "";
 String table = "";
 ResultSet res = null;
-PreparedStatement pstmt;
+PreparedStatement pstmt = null;
 String driver = "oracle.jdbc.driver.OracleDriver";
 String url = "jdbc:oracle:thin:@localhost:1521:xe";
-String user = "chan";
+String user = "asdf";
 String password = "1234";
 Connection conn = null;
 try{
@@ -19,13 +19,3 @@ try{
 	System.out.println("오라클 실패");
 }
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
-</html>
