@@ -1,0 +1,49 @@
+
+
+create table tbl_hamburger_01(
+hcode varchar2(4) primary key not null,
+hname varchar2(30),
+cost number(7)
+);
+insert into tbl_hamburger_01 values('HM01','화이트갈릭버거',3900);
+insert into tbl_hamburger_01 values('HM02','싸이버거',3200);
+insert into tbl_hamburger_01 values('HM03','불고기버거',2800);
+insert into tbl_hamburger_01 values('HM04','통새우버거',2700);
+insert into tbl_hamburger_01 values('HM05','휠렛버거',3600);
+insert into tbl_hamburger_01 values('HM06','스파이시불고기버거',3200);
+insert into tbl_hamburger_01 values('HM07','치킨커틀렛버거',3200);
+
+create table tbl_hamstore_01(
+scode varchar2(4) primary key not null,
+sname varchar2(20)
+);
+
+insert into tbl_hamstore_01 values('S001','강남점');
+insert into tbl_hamstore_01 values('S002','강북점');
+insert into tbl_hamstore_01 values('S003','강동점');
+insert into tbl_hamstore_01 values('S004','강서점');
+
+create table tbl_hamsale_01(
+saleno number(7) primary key not null,
+scode varchar2(4) not null,
+saledate date,
+hcode varchar2(4) not null,
+amount number(5),
+foreign key(hcode) references tbl_hamburger_01(hcode),
+foreign key(scode) references tbl_hamstore_01(scode)
+);
+
+insert into tbl_hamsale_01 values(100001,'S001','2019-08-25','HM02','20');
+insert into tbl_hamsale_01 values(100002,'S001','2019-08-26','HM02','30');
+insert into tbl_hamsale_01 values(100003,'S001','2019-08-26','HM04','30');
+insert into tbl_hamsale_01 values(100004,'S002','2019-08-26','HM02','20');
+insert into tbl_hamsale_01 values(100005,'S002','2019-08-25','HM03','40');
+insert into tbl_hamsale_01 values(100006,'S003','2019-08-26','HM06','20');
+insert into tbl_hamsale_01 values(100007,'S003','2019-08-25','HM02','20');
+insert into tbl_hamsale_01 values(100008,'S003','2019-08-26','HM06','30');
+insert into tbl_hamsale_01 values(100009,'S004','2019-08-25','HM03','30');
+insert into tbl_hamsale_01 values(100010,'S004','2019-08-25','HM02','20');
+insert into tbl_hamsale_01 values(100011,'S004','2019-08-26','HM04','30');
+
+select a.hcode,b.hname,to_char(sum((amount*b.cost)),'999,999,999') from tbl_hamsale_01 a,tbl_hamburger_01 b,tbl_hamstore_01 c where a.hcode=b.hcode and a.scode = c.scode group by a.hcode,b.hname
+commit;
