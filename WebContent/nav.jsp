@@ -1,15 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-</head>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <nav>
 	<ul>
-		<li><a href="join.jsp">매출등록</a></li>
-		<li><a href="object.jsp">상품관리</a></li>
-		<li><a href="salenow.jsp">매출현황</a></li>
+		<li><a href="join.jsp">매출전표등록</a></li>
+		<li><a href="allselect.jsp">통합매출조회</a></li>
+		<li><a href="placeselect.jsp">지점별매출현황</a></li>
+		<li><a href="objectselect.jsp">상품별매출현황</a></li>
 		<li><a href="index.jsp">홈으로</a></li>
 	</ul>
 </nav>

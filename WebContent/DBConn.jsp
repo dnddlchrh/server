@@ -1,18 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.sql.*" %>
 <%
-String query="";
-String table="";
-ResultSet res = null;
 PreparedStatement pstmt = null;
-String driver="oracle.jdbc.driver.OracleDriver";
-String url = "jdbc:oracle:thin:@localhost:1521:xe";
-String user="asdf";
-String pwd="1234";
+ResultSet res = null;
+String query = "";
+String user = "asdf";
+String password = "1234";
 Connection conn = null;
-
 try{
-	Class.forName(driver);
-	conn = DriverManager.getConnection(url,user,pwd);
-}catch(ClassNotFoundException e){System.out.println("드라이버");}catch(SQLException e){System.out.println("오라클");}
+	 Class.forName("oracle.jdbc.OracleDriver");
+	 conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe",user,password);
+}catch(ClassNotFoundException e){
+	System.out.println("driver");
+}catch(SQLException e){
+	System.out.println("oracle");
+}
 %>

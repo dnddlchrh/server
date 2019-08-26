@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="./css/index.css">
 </head>
+<body>
 <header>
-편의점 매출관리 ver 1.0
+
 </header>
